@@ -37,17 +37,22 @@ def cleaned_text(text):
     text = text.translate({
         ord(char): ' '
         for char in all_chars
-        if char not in punctuation and (ord(char) < 97 oor ord(char) > 122)
+        if char not in punctuation and (ord(char) < 97 or ord(char) > 122)
     })
 
     return text
 
 
-### TODO: fill out the function below that transforms the input text and window-size into a set of input/output pairs for use with our RNN model
 def window_transform_text(text, window_size, step_size):
     # containers for input/output pairs
     inputs = []
     outputs = []
+
+    for start in range(0, len(text), step_size):
+        end = start + window_size
+        if end < len(text):
+            inputs.append(text[start:end])
+            outputs.append(text[end])
 
     return inputs, outputs
 
