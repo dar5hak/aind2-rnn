@@ -28,13 +28,17 @@ def build_part1_RNN(window_size):
     model = Sequential()
     model.add(LSTM(5, input_shape=(window_size, 1)))
     model.add(Dense(1))
+
     return model
 
 
 def cleaned_text(text):
     punctuation = ['!', ',', '.', ':', ';', '?']
 
+    # all unique characters appearing in the text
     all_chars = set(text)
+
+    # replace anything that isn't an alphabet or a punctuation with a space
     text = text.translate({
         ord(char): ' '
         for char in all_chars
@@ -49,8 +53,11 @@ def window_transform_text(text, window_size, step_size):
     inputs = []
     outputs = []
 
+    # iterate over the text with steps of given size
     for start in range(0, len(text), step_size):
         end = start + window_size
+
+        # avoid potential IndexError
         if end < len(text):
             inputs.append(text[start:end])
             outputs.append(text[end])
