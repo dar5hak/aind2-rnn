@@ -30,9 +30,15 @@ def build_part1_RNN(window_size):
     return model
 
 
-### TODO: return the text input with only ascii lowercase and the punctuation given below included.
 def cleaned_text(text):
     punctuation = ['!', ',', '.', ':', ';', '?']
+
+    all_chars = set(text)
+    text = text.translate({
+        ord(char): ' '
+        for char in all_chars
+        if char not in punctuation and (ord(char) < 97 oor ord(char) > 122)
+    })
 
     return text
 
